@@ -26,3 +26,18 @@ function a() {
 a();
 console.countReset("a function");
 a();
+
+function a1() {
+	a2();
+}
+
+function a2() {
+	a3();
+}
+
+function a3() {
+	console.log("hello world");
+	console.trace();
+}
+
+a1();
