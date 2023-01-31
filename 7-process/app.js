@@ -18,10 +18,12 @@ console.log(process.uptime());
 console.log(process.cwd());
 console.log(process.cpuUsage());
 
+// 비동기 콜백
 setTimeout(() => {
 	console.log("setTimeout");
 }, 0);
 
+// 우선순위가 비동기 콜백
 process.nextTick(() => {
 	console.log("nextTick");
 });
