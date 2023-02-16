@@ -1,12 +1,18 @@
 const http = require("http");
+const fs = require("fs");
 
 const server = http.createServer((req, res) => {
-	console.log("icoming..");
-	console.log(req.headers);
-	console.log(req.httpVersion);
-	console.log(req.method);
-	console.log(req.url);
-	res.write("welcome!");
+	const url = req.url;
+	res.setHeader("Content-Type", "text/html");
+
+	if (url === "/") {
+		fs.createReadStream("./html/index.html").pipe(res);
+	} else if (url === "/course") {
+		fs.createReadStream("./html/courses.html").pipe(res);
+	} else {
+		fs.createReadStream("./html/not-found.html").pipe(res);
+	}
+
 	res.end();
 });
 
