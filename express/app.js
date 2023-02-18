@@ -1,29 +1,26 @@
 import express from "express";
-import fs from "fs";
-
 const app = express();
 
 app.use(express.json());
 
-app.get("/file", (req, res) => {
-	fs.readFile("/file1.txt", (err, data) => {
-		if (err) {
-			res.sendStatus(404);
-		}
+app
+	.route("/posts")
+	.get((req, res, next) => {
+		res.status(201).send("GET: /posts");
+	})
+	.post((req, res, next) => {
+		res.status(201).send("POST: /posts");
 	});
-});
 
-app.get("/file1", (req, res) => {
-	try {
-		const data = fs.readFileSync("/file1.txt");
-		res.send(data);
-	} catch (error) {
-		res.sendStatus(404);
-	}
-});
+app
+	.route("/posts/:id")
+	.put((req, res, next) => {
+		res.status(201).send("PUT: /posts/:id");
+	})
+	.delete((req, res, next) => {
+		res.status(201).send("DELETE: /posts/:id");
+	});
 
-app.post("/", (req, res, next) => {
-	console.log(req.body);
+app.listen(8080, () => {
+	console.log("connected...");
 });
-
-app.listen(8080);
