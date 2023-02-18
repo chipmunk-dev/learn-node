@@ -1,25 +1,28 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
+import helmet from "helmet";
+
 const app = express();
 
 app.use(express.json());
-
-app
-	.route("/posts")
-	.get((req, res, next) => {
-		res.status(201).send("GET: /posts");
+app.use(cookieParser());
+app.use(morgan("tiny"));
+app.use(
+	cors({
+		origin: "*",
+		optionsSuccessStatus: 200,
+		credentials: true,
 	})
-	.post((req, res, next) => {
-		res.status(201).send("POST: /posts");
-	});
+);
+app.use(helmet());
 
-app
-	.route("/posts/:id")
-	.put((req, res, next) => {
-		res.status(201).send("PUT: /posts/:id");
-	})
-	.delete((req, res, next) => {
-		res.status(201).send("DELETE: /posts/:id");
-	});
+app.get("/", (req, res) => {
+	console.log(req.body);
+	console.log(req.cookies);
+	res.send("Welcome!");
+});
 
 app.listen(8080, () => {
 	console.log("connected...");
