@@ -16,13 +16,14 @@ const validate = (req, res, next) => {
 app.post(
 	"/users",
 	[
-		body("name").notEmpty().isLength({ min: 2 }).withMessage("이름은 두글자 이상"),
+		body("name").trim().notEmpty().isLength({ min: 2 }).withMessage("이름은 두글자 이상"),
 		body("age").notEmpty().isInt().withMessage("숫자 입력"),
-		body("email").isEmail().withMessage("이메일 양식을 입력"),
+		body("email").isEmail().withMessage("이메일 양식을 입력").normalizeEmail(),
 		body("job.name").notEmpty(),
 		validate,
 	],
 	(req, res) => {
+		console.log(req.body);
 		return res.sendStatus(201);
 	}
 );
